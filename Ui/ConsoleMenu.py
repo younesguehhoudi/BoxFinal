@@ -1,5 +1,8 @@
 from Ui.Login import auth_screen
 from Ui.PlacePrinter import add_place_ui as place_add_ui, display_places_ui as place_display_ui
+from Logic.Place import get_places_by_user
+from Logic.Algo import optimize_tour
+from Ui.TourPrinter import display_tour
 
 class ConsoleMenu:
     def __init__(self):
@@ -58,6 +61,21 @@ class ConsoleMenu:
             self.quit_application()
         else:
             print("Unknown choice. Please try again.")
+    
+    def display_tour_ui(self):
+        if self.current_user_id is None:
+            print("Please log in first or create an account.")
+            return
+
+        places = get_places_by_user(self.current_user_id)
+
+        if not places:
+            print("No saved places.")
+            return
+
+        print("Optimizing your tour, please wait...")
+        tour = optimize_tour(places, "my tour", "private")
+        display_tour(tour)
 
     def run(self):
         while True:

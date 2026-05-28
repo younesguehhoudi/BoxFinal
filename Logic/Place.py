@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from typing import Optional
 
 from geopy.geocoders import Nominatim
@@ -69,3 +70,14 @@ def get_places_by_user(user_id: int) -> list[Place]:
         lng=row["longitude"],
         place_id=row["id"]
     ) for row in rows]
+=======
+class Place:
+    def __init__(self,name,lat,lng):
+        self.name = name
+        self.lat = lat
+        self.lng = lng 
+        
+    def __str__(self):
+        return f"{self.name} ({self.lat}, {self.lng})"
+    
+>>>>>>> feature/algo

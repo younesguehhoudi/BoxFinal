@@ -26,6 +26,9 @@ An exact solution is not feasible : the number of possible tours
 grows as n!, making it computationally impossible beyond ~15 places.
 We therefore use a heuristic approach.
 
+https://en.wikipedia.org/wiki/Travelling_salesman_problem
+
+
 ### Step 1 — Multi-start Nearest Neighbor
 
 The classic Nearest Neighbor algorithm starts from one place and 
@@ -38,6 +41,8 @@ starting point, then keep the tour with the lowest total distance.
 
 Complexity : O(n³) — n times O(n²).
 Acceptable for the expected dataset size (under 50 places), for tour planning it seems reasonable.
+https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm
+https://grokipedia.com/page/Nearest_neighbour_algorithm
 
 ### Step 2 — 2-opt improvement
 
@@ -53,6 +58,7 @@ A tour with crossing segments is always longer than the same tour
 without crossings. 2-opt systematically removes these crossings.
 
 Complexity : O(n²) per iteration, repeated until convergence.
+https://en.wikipedia.org/wiki/2-opt
 
 ### Why this approach
 
