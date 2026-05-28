@@ -64,3 +64,24 @@ def nearest_neighbor_from(places: list, start: Place) -> list:
 
     return tour
 
+def best_nearest_neighbor(places: list, name: str, visibility: str) -> Tour:
+    """
+    Run Nearest Neighbour heuristic from every place as starting point.
+    Returns the Tour with the shortest total distance.
+    places     : list of all Place objects
+    name       : name given to the resulting Tour
+    visibility : visibility of the resulting Tour
+    returns    : best Tour found
+    """
+    # starts with first place for starting best_tour and calculates total distance
+    best_tour = Tour(name, nearest_neighbor_from(places, places[0]), visibility)
+    best_tour.total_distance = calculate_total_distance(best_tour)
+
+    #itterates to finds the tour with shortest distance
+    for start in places[1:]:
+        candidate = Tour(name, nearest_neighbor_from(places, start), visibility)
+        candidate.total_distance = calculate_total_distance(candidate)
+        if candidate.total_distance < best_tour.total_distance:
+            best_tour = candidate
+
+    return best_tour
