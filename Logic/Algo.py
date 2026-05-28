@@ -1,6 +1,6 @@
 import math
-from Logic.Place import Place  
-from Logic.Tour import Tour 
+from Logic.Place import Place
+from Logic.Tour import Tour  
 
 def calculate_distance(place_a : Place, place_b : Place):
     """
@@ -35,10 +35,10 @@ def calculate_total_distance(tour: Tour) -> float:
     if len(places) < 2:
         return 0.0
     total = 0.0
-    for i in range(len(places) - 1):
-        total += calculate_distance(places[i], places[i + 1])
-    total += calculate_distance(places[-1], places[0])
+    for i in range(len(places)):
+        total += calculate_distance(places[i], places[(i + 1)%len(places)])
     return total
+
 
 
 
