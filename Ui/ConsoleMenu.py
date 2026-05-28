@@ -1,67 +1,54 @@
-# ui/consoleMenu.py
+class ConsoleMenu:
+    def __init__(self):
+        # Initialization is empty as there is no data to store
+        pass
 
-from Ui.Login import login_screen
-from Ui.PlacePrinter import display_all_places
-from Ui.Tour import display_tour
+    def display_title(self):
+        print("\n=== MAIN MENU ===")
 
-def display_title():
-    print("\n=== MAIN MENU ===")
+    def display_options(self):
+        print("1. Login")
+        print("2. Add a place manually")
+        print("3. Display places")
+        print("4. Display tour (current order)")
+        print("5. Quit")
 
-def display_options():
-    print("1. Login")
-    print("2. Add a place manually")
-    print("3. Display places")
-    print("4. Display tour (current order)")
-    print("5. Quit")
+    def ask_choice(self):
+        return input("Your choice (1-5): ")
 
-def ask_choice():
-    choice = input("Your choice (1-5): ")
-    return choice
+    def login_ui(self):
+        print("-> Login Section")
 
-def ask_place_name():
-    name = input("Name of the new place: ")
-    return name
+    def add_place_ui(self):
+        print("-> Add Place Section")
 
-def ask_latitude():
-    lat = input("Latitude: ")
-    return lat
+    def display_places_ui(self):
+        print("-> Display Places Section")
 
-def ask_longitude():
-    lon = input("Longitude: ")
-    return lon
+    def display_tour_ui(self):
+        print("-> Display Tour Section")
 
-def add_place_ui(places_dictionary):
-    name = ask_place_name()
-    lat = ask_latitude()
-    lon = ask_longitude()
-    
-    places_dictionary[name] = {
-        "latitude": lat,
-        "longitude": lon
-    }
-    print("Place added.")
+    def quit_application(self):
+        print("Exiting program. Goodbye!")
+        exit()
 
-def quit_application():
-    print("Exiting program. Goodbye!")
-    exit()
+    def process_choice(self, choice):
+        if choice == "1":
+            self.login_ui()
+        elif choice == "2":
+            self.add_place_ui()
+        elif choice == "3":
+            self.display_places_ui()
+        elif choice == "4":
+            self.display_tour_ui()
+        elif choice == "5":
+            self.quit_application()
+        else:
+            print("Unknown choice. Please try again.")
 
-def process_choice(choice, places_dictionary):
-    if choice == "1":
-        login_screen()
-    elif choice == "2":
-        add_place_ui(places_dictionary)
-    elif choice == "3":
-        display_all_places(places_dictionary)
-    elif choice == "4":
-        display_tour(places_dictionary)
-    elif choice == "5":
-        quit_application()
-    else:
-        print("Unknown choice. Please try again.")
-
-def run_menu(places_dictionary):
-    while True:
-        display_title()
-        display_options()
-        choice = ask_choice()
-        process_choice(choice, places_dictionary)
+    def run(self):
+        while True:
+            self.display_title()
+            self.display_options()
+            choice = self.ask_choice()
+            self.process_choice(choice)
