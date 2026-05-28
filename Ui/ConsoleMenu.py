@@ -1,8 +1,8 @@
 # ui/consoleMenu.py
 
-from ui.Login import login_screen
-from ui.PlacePrinter import display_all_places
-from ui.Tour import display_tour
+from Ui.Login import login_screen
+from Ui.PlacePrinter import display_all_places
+from Ui.Tour import display_tour
 
 def display_title():
     print("\n=== MAIN MENU ===")
