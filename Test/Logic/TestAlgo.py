@@ -38,6 +38,25 @@ def test_distance_total_empty():
 def test_distance_total_symmetry():
     assert abs(calculate_total_distance(tour) - calculate_total_distance(inverse)) < 0.01
 
+def test_nearest_neighbor():
+    result = nearest_neighbor_from(places,places[0])
+    assert len(result) == len(places) # all places are still in result
+    assert len(set(result)) == len(result) # checking duplicates 
+    assert result[0] == tokyo # starting point did not changed
+
+def test_best_nearest_neighbor_returns_tour():
+    result = best_nearest_neighbor(places, "test", "public")
+    assert isinstance(result, Tour)
+
+def test_best_nearest_neighbor_distance():
+    result = best_nearest_neighbor(places, "test", "public")
+    assert result.total_distance > 0  
+
+def test_two_opt():
+    nn = best_nearest_neighbor(places, "test", "public")
+    optimized = optimize_tour(places, "test", "public")
+    assert optimized.total_distance <= nn.total_distance
+
 if __name__ == "__main__":
     tests = [
         test_distance_known_route,
@@ -45,7 +64,11 @@ if __name__ == "__main__":
         test_distance_symmetry,
         test_distance_total_known,
         test_distance_total_empty,
-        test_distance_total_symmetry
+        test_distance_total_symmetry,
+        test_nearest_neighbor,
+        test_best_nearest_neighbor_returns_tour,
+        test_best_nearest_neighbor_distance,
+        test_two_opt
     ]
     for t in tests:
         t()
