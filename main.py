@@ -1,6 +1,6 @@
 # main.py
 
-from Ui.ConsoleMenu import run_menu
+from Ui.ConsoleMenu import ConsoleMenu
 
 def main():
     saved_places = {
@@ -24,7 +24,8 @@ def main():
         "Takao": {"latitude": "35.64166", "longitude": "139.2816337"}
     }
     
-    run_menu(saved_places)
+    menu = ConsoleMenu()
+    menu.run()
 
 if __name__ == "__main__":
     main()
