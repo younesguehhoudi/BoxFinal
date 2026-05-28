@@ -1,6 +1,6 @@
 # main.py
 
-from ui.ConsoleMenu import run_menu
+from Ui.ConsoleMenu import run_menu
 
 def main():
     saved_places = {
