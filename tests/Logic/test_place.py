@@ -1,7 +1,7 @@
 # tests/test_place.py
 
 import unittest
-from logic.place import build_api_url, extract_place_name, extract_latitude, extract_longitude
+from Logic.Place import build_api_url, extract_place_name, extract_latitude, extract_longitude
 
 class TestPlaceFunctions(unittest.TestCase):
 
