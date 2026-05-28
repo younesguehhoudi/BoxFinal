@@ -8,19 +8,17 @@ class Place:
     def __init__(
         self,
         name: str,
-        latitude: Optional[float] = None,
-        longitude: Optional[float] = None,
+        lat: Optional[float] = None,
+        lng: Optional[float] = None,
         place_id: Optional[int] = None,
     ):
         self.id = place_id
         self.name = name
-        self.latitude = latitude
-        self.longitude = longitude
+        self.lat = lat
+        self.lng = lng
 
     def __str__(self) -> str:
-        if self.latitude is not None and self.longitude is not None:
-            return f"{self.name} (Lat: {self.latitude}, Lon: {self.longitude})"
-        return f"{self.name} (Unknown coordinates)"
+        return f"{self.name} ({self.lat}, {self.lng})"
 
 def fetch_coordinates(place_name: str) -> tuple[Optional[float], Optional[float]]:
     geolocator = Nominatim(user_agent="TravelPlannerApp/1.0")
@@ -33,7 +31,7 @@ def fetch_coordinates(place_name: str) -> tuple[Optional[float], Optional[float]
         return None, None
 
 def save_place(user_id: int, place: Place) -> bool:
-    if place.latitude is None or place.longitude is None:
+    if place.lat is None or place.lng is None:
         return False
 
     connection = get_connection()
@@ -43,7 +41,7 @@ def save_place(user_id: int, place: Place) -> bool:
         cursor.execute("""
             INSERT INTO places (user_id, name, latitude, longitude)
             VALUES (?, ?, ?, ?)
-        """, (user_id, place.name, place.latitude, place.longitude))
+        """, (user_id, place.name, place.lat, place.lng))
         connection.commit()
         place.id = cursor.lastrowid
         return True
@@ -67,7 +65,7 @@ def get_places_by_user(user_id: int) -> list[Place]:
 
     return [Place(
         name=row["name"],
-        latitude=row["latitude"],
-        longitude=row["longitude"],
+        lat=row["latitude"],
+        lng=row["longitude"],
         place_id=row["id"]
     ) for row in rows]

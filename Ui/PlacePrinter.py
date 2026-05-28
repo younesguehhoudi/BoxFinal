@@ -9,7 +9,7 @@ def add_place_ui(user_id: int):
     lat, lng = fetch_coordinates(name)
     
     if lat is not None and lng is not None:
-        new_place = Place(name=name, latitude=lat, longitude=lng)
+        new_place = Place(name=name, lat=lat, lng=lng)
         success = save_place(user_id, new_place)
         
         if success:
