@@ -1,6 +1,6 @@
 class ConsoleMenu:
     def __init__(self):
-        # Initialization is empty as there is no data to store
+        
         pass
 
     def display_title(self):
