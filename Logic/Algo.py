@@ -85,3 +85,37 @@ def best_nearest_neighbor(places: list, name: str, visibility: str) -> Tour:
             best_tour = candidate
 
     return best_tour
+
+def two_opt(tour: Tour) -> Tour:
+    """
+    Improve a tour using the 2-opt local search algorithm.
+    Iteratively reverses segments between two edges until no improvement is found.
+    """
+    improved = True
+    places = tour.places
+    n = len(places)
+
+    while improved:
+        improved = False
+        for i in range(n):
+            for j in range(i+2, n):
+                before = calculate_distance(places[i], places[i+1]) + calculate_distance(places[j], places[(j+1) % n])
+                after  = calculate_distance(places[i], places[j])   + calculate_distance(places[i+1], places[(j+1) % n])
+                if after < before:
+                    tour.places[i+1:j+1] = tour.places[i+1:j+1][::-1]
+                    improved = True
+                    break
+            if improved:
+                break
+
+    return tour
+
+def optimize_tour(places: list, name: str, visibility: str) -> Tour:
+    """
+    Generate and optimize a tour using Multi-Start Nearest Neighbour and 2-opt.
+    Returns the best Tour found after local search optimization.
+    """
+    tour_final = best_nearest_neighbor(places,name,visibility)
+    tour_final = two_opt(tour_final)
+    tour_final.total_distance = calculate_total_distance(tour_final)
+    return tour_final
