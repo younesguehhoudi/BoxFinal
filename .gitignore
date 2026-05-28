@@ -51,3 +51,6 @@ poetry.lock
 
 # pyenv
 .python-version
+
+# Personal notes
+docs/notes.md
