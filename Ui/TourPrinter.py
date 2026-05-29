@@ -1,5 +1,7 @@
 from Logic.Place import Place, fetch_coordinates
 from Logic.Tour import Tour
+from Logic.HotelPlanner import kmeans, get_hotel, find_best_k_optimal, find_best_k_compromise
+from Logic.Algo import optimize_tour
 
 # --- DISPLAY ---
 
@@ -258,3 +260,38 @@ def choose_places_for_tour(saved_places):
             
         else:
             print("Invalid choice. Please select 1, 2, 3 or 4.")
+
+def hotel_planning_ui(places: list):
+    """
+    Interactive flow to propose hotel-based tour planning.
+    First displays the optimal version, then the compromise if rejected.
+    places : list of Place objects used to build the tour
+    """
+    print("\nDo you want to add hotels to your tour?")
+    if input("(y/n): ").strip().lower() != "y":
+        return
+
+    print("Computing optimal hotel placement...")
+    k = find_best_k_optimal(places)
+    clusters = kmeans(places, k)
+    hotels = [get_hotel(c) for c in clusters]
+    tour_optimal = optimize_tour(hotels, "hotel_tour_optimal", "private")
+
+    print(f"\n--- Optimal version: {k} hotels ---")
+    display_tour(tour_optimal)
+    for hotel in hotels:
+        print(f"  Hotel: {hotel.name} → cities: {[p.name for p in hotel.cities]}")
+
+    if input("\nAccept this plan? (y/n): ").strip().lower() == "y":
+        return
+
+    print("Computing compromise hotel placement...")
+    k2 = find_best_k_compromise(places)
+    clusters2 = kmeans(places, k2)
+    hotels2 = [get_hotel(c) for c in clusters2]
+    tour_compromise = optimize_tour(hotels2, "hotel_tour_compromise", "private")
+
+    print(f"\n--- Compromise version: {k2} hotels ---")
+    display_tour(tour_compromise)
+    for hotel in hotels2:
+        print(f"  Hotel: {hotel.name} → cities: {[p.name for p in hotel.cities]}")

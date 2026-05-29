@@ -5,12 +5,13 @@ from Ui.PlacePrinter import (
     add_place_ui as place_add_ui,
     display_places_ui as place_display_ui,
 )
-from Ui.TourPrinter import choose_places_for_tour, display_tour
+from Ui.TourPrinter import choose_places_for_tour, display_tour, hotel_planning_ui
 from Ui.TourSharingPrinter import (
     save_tour_ui,
     list_my_tours_ui,
     access_shared_tour_ui,
 )
+
 
 
 class ConsoleMenu:
@@ -95,6 +96,7 @@ class ConsoleMenu:
         print("Optimizing your tour, please wait...")
         tour = optimize_tour(selected_places, "unnamed", "private")
         display_tour(tour)
+        hotel_planning_ui(selected_places)
 
         save = input("\nDo you want to save and share this tour? (y/n): ").strip().lower()
         if save == "y":
