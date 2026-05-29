@@ -7,6 +7,14 @@ def calculate_distance(place_a: Place, place_b: Place) -> float:
     Calculate the distance in km between two places.
     Uses the spherical law of cosines.
     """
+    if (
+        place_a.lat is None or
+        place_a.lng is None or
+        place_b.lat is None or
+        place_b.lng is None
+    ):
+        raise ValueError("Both places must have coordinates")
+
     R = 6378.197
     PI = 3.141592
 
