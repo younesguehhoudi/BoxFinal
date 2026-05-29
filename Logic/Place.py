@@ -24,6 +24,11 @@ class Place:
         """Return a readable representation of the place."""
         return f"{self.name} ({self.lat}, {self.lng})"
 
+class Hotel(Place):
+    def __init__(self, place: Place, cities: list):
+        super().__init__(place.name, place.lat, place.lng)
+        self.cities = cities
+
 
 def fetch_coordinates(place_name: str) -> tuple[Optional[float], Optional[float]]:
     """Fetch latitude and longitude for a place name."""
