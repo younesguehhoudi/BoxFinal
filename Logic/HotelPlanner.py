@@ -51,7 +51,7 @@ def kmeans(places: list, k: int) -> list:
         ):
             break
         hotels = new_hotels
-    return clusters
+    return [c for c in clusters if c]
 
 
 def score_with_hotels(places: list, k: int) -> float:

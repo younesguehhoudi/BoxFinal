@@ -52,6 +52,14 @@ def save_place(user_id: int, place: Place) -> bool:
 
     try:
         cursor.execute(
+            "SELECT id FROM places WHERE user_id = ? AND name = ?",
+            (user_id, place.name),
+        )
+        if cursor.fetchone():
+            print(f"Place '{place.name}' already saved.")
+            return False
+
+        cursor.execute(
             """
             INSERT INTO places (user_id, name, latitude, longitude)
             VALUES (?, ?, ?, ?)

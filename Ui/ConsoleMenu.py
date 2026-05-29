@@ -98,9 +98,12 @@ class ConsoleMenu:
         display_tour(tour)
         hotel_planning_ui(selected_places)
 
+        hotel_tour = hotel_planning_ui(selected_places)
+
         save = input("\nDo you want to save and share this tour? (y/n): ").strip().lower()
         if save == "y":
-            save_tour_ui(self.current_user_id, tour)
+            tour_to_save = hotel_tour if hotel_tour else tour
+            save_tour_ui(self.current_user_id, tour_to_save)
 
     def list_my_tours_ui(self):
         """Display all tours saved by the current user."""
