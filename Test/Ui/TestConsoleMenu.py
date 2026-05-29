@@ -13,8 +13,10 @@ class TestConsoleMenu:
         pass
 
     def test_process_choice(self):
-        pass
+        menu = ConsoleMenu()
+        menu.process_choice("1")
 
 
 if __name__=="__main__":
-    TestMenu = TestConsoleMenu()
+    TestMenu = TestConsoleMenu()    
+    TestMenu.test_process_choice()
