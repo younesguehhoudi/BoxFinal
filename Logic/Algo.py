@@ -119,3 +119,4 @@ def optimize_tour(places: list, name: str, visibility: str) -> Tour:
     tour_final = two_opt(tour_final)
     tour_final.total_distance = calculate_total_distance(tour_final)
     return tour_final
+
