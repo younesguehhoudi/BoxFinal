@@ -1,0 +1,22 @@
+from pathlib import Path
+import sys
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from Ui.ConsoleMenu import ConsoleMenu
+
+class TestConsoleMenu:
+    def __init__(self):
+        pass
+
+    def test_process_choice(self):
+        menu = ConsoleMenu()
+        menu.process_choice("1")
+
+
+if __name__=="__main__":
+    TestMenu = TestConsoleMenu()    
+    TestMenu.test_process_choice()
