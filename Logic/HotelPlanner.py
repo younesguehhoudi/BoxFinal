@@ -35,6 +35,14 @@ def get_hotel(cluster: list) -> Hotel:
 
 
 def kmeans(places: list, k: int) -> list:
+    """
+    Partition a list of places into k clusters using the K-Means algorithm.
+    Initializes clusters by distributing places evenly, then iterates until
+    hotel assignments no longer change between two iterations.
+    places : list of Place objects to cluster
+    k      : number of clusters
+    returns: list of non-empty clusters, each being a list of Place objects
+    """
     clusters_init = [[] for _ in range(k)]
     for i, place in enumerate(places):
         clusters_init[i % k].append(place)

@@ -38,6 +38,29 @@ The application follows a strict 3-layer architecture to ensure modularity and m
    ```
 The SQLite database (`travel_planner.db`) will be initialized automatically on the first run.
 
+## Database Sharing
+
+This project uses a local SQLite database (`travel_planner.db`).
+Since SQLite is a binary file, it cannot be merged by Git automatically.
+
+### Workflow to share database changes with the team
+
+**Before pushing changes to the database:**
+```bash
+git add travel_planner.db
+git commit -m "chore: update database"
+git push
+```
+
+**Before pulling when someone else updated the database:**
+```bash
+del travel_planner.db        # Windows
+rm travel_planner.db         # Linux/Mac
+git pull
+```
+The database will be replaced by the remote version.
+If the file is not deleted before pulling, Git will raise a binary conflict.
+
 ## Usage Guide
 Upon launching the application, you will be greeted by the Main Menu:
 
