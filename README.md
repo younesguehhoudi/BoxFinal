@@ -233,7 +233,7 @@ git push
 # Pull someone else's database (delete yours first to avoid binary conflict)
 del travel_planner.db     # Windows
 rm travel_planner.db      # Linux/Mac
-git pull
+git checkout origin/main -- travel_planner.db # troubles with suppression if not
 ```
 
 ## License

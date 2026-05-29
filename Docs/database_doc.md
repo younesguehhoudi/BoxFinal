@@ -191,7 +191,7 @@ To pull the latest database from the team:
 ```bash
 del travel_planner.db        # Windows
 rm travel_planner.db         # Linux/Mac
-git pull
+git checkout origin/main -- travel_planner.db
 ```
 
 Always delete your local database before pulling, otherwise Git will raise a binary conflict and the pull will fail.
