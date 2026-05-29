@@ -8,4 +8,5 @@ class Tour:
 
     def __str__(self):
         tour = " → ".join(str(i) for i in self.places)
-        return f"Tour '{self.name}' : {tour} | {self.total_distance:.1f} km"
+        first = str(self.places[0]) if self.places else ""
+        return f"Tour '{self.name}' : {tour} → {first} | {self.total_distance:.1f} km"
