@@ -74,6 +74,7 @@ def score_with_hotels(places: list, k: int) -> float:
                 total_distance += 2 * calculate_distance(hotel, place)
     return total_distance + tour_hotels.total_distance
 
+
 def find_best_k_optimal(places: list) -> int:
     """
     Find the optimal number of hotels that minimizes the total travel distance.
@@ -84,5 +85,61 @@ def find_best_k_optimal(places: list) -> int:
     places  : list of Place objects representing the cities to visit
     returns : integer k representing the optimal number of hotels
     """""
-    for i in range(len(places)):
+    best_k = 1
+    best_score = score_with_hotels(places, 1)
+    for i in range(2,len(places)+1):
+        new_score = score_with_hotels(places, i)
+        if  new_score < best_score:
+            best_score = new_score
+            best_k = i
+    return best_k
+
+
+def find_best_k_optimal(places: list) -> int:
+    """
+    Find the optimal number of hotels that minimizes the total travel distance.
+    Tests all values of k from 1 to len(places) and returns the k that produces
+    the lowest total distance, including the inter-hotel tour and all round trips
+    from each hotel to its assigned cities.
+    Note: may return a high k value (up to one hotel per city) if that minimizes distance.
+    places  : list of Place objects representing the cities to visit
+    returns : integer k representing the optimal number of hotels
+    """""
+    best_k = 1
+    best_score = score_with_hotels(places, 1)
+    for i in range(2,len(places)+1):
+        new_score = score_with_hotels(places, i)
+        if  new_score < best_score:
+            best_score = new_score
+            best_k = i
+    return best_k
+
+
+def find_best_k_compromise(places: list, threshold: float = 0.05) -> int:
+    """
+    Find the optimal number of hotels using a gain threshold to avoid over-clustering.
+    Starts from k=1 and increases k as long as the relative improvement in total
+    distance exceeds the given threshold. Stops as soon as adding one more hotel
+    does not reduce the distance by more than threshold percent.
+    This avoids the degenerate case of one hotel per city by accepting a small
+    distance trade-off in exchange for fewer hotels.
+    places    : list of Place objects representing the cities to visit
+    threshold : minimum relative gain to justify adding one more hotel (default 5%)
+    returns   : integer k representing the compromise number of hotels
+    """
+    best_k = 1
+    best_score = score_with_hotels(places, 1)
+    for i in range(2,len(places)+1):
+        new_score = score_with_hotels(places, i)
+        if  best_score * (1-threshold) > new_score :
+            best_score = new_score
+            best_k = i
+        else:
+            break
+        
+    return best_k
+
+
+
+
          
