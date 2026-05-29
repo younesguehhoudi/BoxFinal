@@ -65,7 +65,7 @@ def score_with_hotels(places: list, k: int) -> float:
     """
     total_distance = 0.0
     clusters = kmeans(places, k)
-    hotels = [get_hotel(cluster) for cluster in clusters]
+    hotels = [get_hotel(cluster) for cluster in clusters if cluster]
     tour_hotels = optimize_tour(hotels, "distance_hotel", "private")
     for hotel in hotels:
         for place in hotel.cities:
