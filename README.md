@@ -219,6 +219,22 @@ Test files cover: authentication, place management, tour algorithm, and hotel pl
 
 ---
 
+## Database — Known Limitation
+
+SQLite is a local file. Each team member has their own `travel_planner.db` on their machine.
+
+**To share database changes with the team:**
+```bash
+# Push your database
+git add travel_planner.db
+git commit -m "chore: update database"
+git push
+
+# Pull someone else's database (delete yours first to avoid binary conflict)
+del travel_planner.db     # Windows
+rm travel_planner.db      # Linux/Mac
+git pull
+```
 
 ## License
 

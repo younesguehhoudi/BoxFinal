@@ -1,5 +1,9 @@
 # Technical Documentation — Travel Planner
 
+> Artificial intelligence tools were used during development to identify
+> relevant algorithms and point toward the appropriate documentation.
+> All implementations were written and understood.
+
 ## 1. Architecture
 
 We chose a 3-layer architecture to keep responsibilities separated :
@@ -53,10 +57,9 @@ and gives good results for small datasets.
 
 ## 4. Algorithm — Hotel Planning (K-Means)
 
-Complexity 
-O(n × k × i)
-n is number of places
-and k number of hotels 
+Complexity : O(n × k × i) where n is the number of places, k the number of
+hotels, and i the number of iterations until convergence.
+
 ### Problem
 
 After generating a tour, the user can choose to add hotels.
@@ -74,6 +77,8 @@ Each iteration assigns every place to its nearest hotel, then recomputes
 each cluster's center and picks the closest real place as the new hotel.
 Stops when assignments no longer change.
 
+https://en.wikipedia.org/wiki/K-means_clustering
+
 ### Choosing k
 
 Two modes are available :
@@ -90,3 +95,28 @@ The user sees optimal first, then compromise if rejected.
 K-Means is a simple and well-established clustering algorithm.
 Our hotel selection (closest to centroid) minimizes intra-cluster travel.
 The two k-selection modes give the user a meaningful choice.
+
+---
+
+## 5. Database — Known Limitation
+
+SQLite is a local file. Each team member has their own database on their machine.
+Git cannot merge binary files, so database conflicts must be resolved manually.
+
+To share database changes with the team :
+
+- Push : git add travel_planner.db → commit → push
+- Pull : delete travel_planner.db locally first, then pull
+
+A proper fix would be migrating to a shared online database (Supabase/PostgreSQL).
+The only file to change would be Data/DataBase.py — the rest of the code is
+already abstracted behind get_connection().
+
+---
+
+## 6. Potential improvements
+
+- Explore more advanced heuristics for better TSP results on larger datasets
+- Add DMS coordinate format (degrees, minutes, seconds)
+- Adding tour modifying (lack of time to implement it properly)
+
