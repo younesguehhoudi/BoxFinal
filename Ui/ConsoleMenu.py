@@ -6,6 +6,11 @@ from Ui.PlacePrinter import (
     display_places_ui as place_display_ui,
 )
 from Ui.TourPrinter import choose_places_for_tour, display_tour
+from Ui.TourSharingPrinter import (
+    save_tour_ui,
+    list_my_tours_ui,
+    access_shared_tour_ui,
+)
 
 
 class ConsoleMenu:
@@ -25,18 +30,21 @@ class ConsoleMenu:
         else:
             print(f"1. Logout ({self.current_username})")
         print("2. Add a place")
-        print("3. Display places")
-        print("4. Display tour")
-        print("5. Quit")
+        print("3. Display my places")
+        print("4. Generate and save a tour")
+        print("5. My saved tours")
+        print("6. Access a shared tour (via token)")
+        print("7. Quit")
 
     def ask_choice(self):
         """Prompt the user for a menu choice."""
-        return input("Your choice (1-5): ")
+        return input("Your choice (1-7): ").strip()
+
+    # ── AUTH ──────────────────────────────────────────────────────────────────
 
     def login_ui(self):
         """Launch the authentication flow and store the current user id."""
         user = auth_screen()
-
         if user:
             self.current_user_id = user["id"]
             self.current_username = user["username"]
@@ -47,12 +55,13 @@ class ConsoleMenu:
         self.current_username = None
         print("You have been logged out.")
 
+    # ── PLACES ────────────────────────────────────────────────────────────────
+
     def add_place_ui(self):
         """Open the place creation flow for the current user."""
         if self.current_user_id is None:
             print("Please log in first or create an account.")
             return
-
         place_add_ui(self.current_user_id)
 
     def display_places_ui(self):
@@ -60,11 +69,15 @@ class ConsoleMenu:
         if self.current_user_id is None:
             print("Please log in first or create an account.")
             return
-
         place_display_ui(self.current_user_id)
 
-    def display_tour_ui(self):
-        """Display the optimized tour for the current user."""
+    # ── TOURS ─────────────────────────────────────────────────────────────────
+
+    def generate_and_save_tour_ui(self):
+        """
+        Let the user pick places, optimize the tour, display it, then
+        optionally save it with a visibility setting and receive a share token.
+        """
         if self.current_user_id is None:
             print("Please log in first or create an account.")
             return
@@ -72,7 +85,7 @@ class ConsoleMenu:
         places = get_places_by_user(self.current_user_id)
 
         if not places:
-            print("No saved places.")
+            print("No saved places. Add some places first (option 2).")
             return
 
         selected_places = choose_places_for_tour(places)
@@ -80,8 +93,28 @@ class ConsoleMenu:
             return
 
         print("Optimizing your tour, please wait...")
-        tour = optimize_tour(selected_places, "my tour", "private")
+        tour = optimize_tour(selected_places, "unnamed", "private")
         display_tour(tour)
+
+        save = input("\nDo you want to save and share this tour? (y/n): ").strip().lower()
+        if save == "y":
+            save_tour_ui(self.current_user_id, tour)
+
+    def list_my_tours_ui(self):
+        """Display all tours saved by the current user."""
+        if self.current_user_id is None:
+            print("Please log in first or create an account.")
+            return
+        list_my_tours_ui(self.current_user_id)
+
+    def access_shared_tour_ui(self):
+        """
+        Access a tour shared by another user via its token.
+        Public tours do not require a login; private ones do.
+        """
+        access_shared_tour_ui(self.current_user_id)
+
+    # ── ROUTING ───────────────────────────────────────────────────────────────
 
     def quit_application(self):
         """Exit the application."""
@@ -90,19 +123,18 @@ class ConsoleMenu:
 
     def process_choice(self, choice):
         """Run the action associated with the selected menu option."""
-        if choice == "1":
-            if self.current_user_id is None:
-                self.login_ui()
-            else:
-                self.logout_ui()
-        elif choice == "2":
-            self.add_place_ui()
-        elif choice == "3":
-            self.display_places_ui()
-        elif choice == "4":
-            self.display_tour_ui()
-        elif choice == "5":
-            self.quit_application()
+        actions = {
+            "1": lambda: self.login_ui() if self.current_user_id is None else self.logout_ui(),
+            "2": self.add_place_ui,
+            "3": self.display_places_ui,
+            "4": self.generate_and_save_tour_ui,
+            "5": self.list_my_tours_ui,
+            "6": self.access_shared_tour_ui,
+            "7": self.quit_application,
+        }
+        action = actions.get(choice)
+        if action:
+            action()
         else:
             print("Unknown choice. Please try again.")
 
