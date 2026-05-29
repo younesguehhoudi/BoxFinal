@@ -98,7 +98,6 @@ class ConsoleMenu:
         print("Optimizing your tour, please wait...")
         tour = optimize_tour(selected_places, "unnamed", "private")
         display_tour(tour)
-        hotel_planning_ui(selected_places)
 
         hotel_tour = hotel_planning_ui(selected_places)
 

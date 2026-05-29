@@ -208,7 +208,7 @@ def choose_places_from_names():
     """
     while True:
         print("\nType the place names separated by commas.")
-        print("Example: Paris, Lyon, Marseille")
+        print("Example: Tokyo, Osaka, Nagasaki")
         
         tokens = get_tokens_from_input("Place names: ")
         
