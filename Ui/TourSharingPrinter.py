@@ -1,4 +1,9 @@
-from Logic.TourManager import save_tour, get_tours_by_user, get_tour_by_token
+from Logic.TourManager import (
+    save_tour,
+    get_tours_by_user,
+    get_public_tours,
+    get_tour_by_token,
+)
 from Logic.Tour import Tour
 from Logic.Place import save_place
 
@@ -120,6 +125,41 @@ def list_my_tours_ui(user_id: int):
         return
 
     print(f"\n══ Your Tours ({len(tours)}) ══")
+    for i, meta in enumerate(tours, start=1):
+        display_tour_summary(meta, index=i)
+
+    print("\n  0. Back to main menu")
+    choice = input(f"Select a tour to view (1-{len(tours)}) or 0 to go back: ").strip()
+
+    if choice == "0" or not choice.isdigit():
+        return
+
+    idx = int(choice)
+    if idx < 1 or idx > len(tours):
+        print("Invalid selection.")
+        return
+
+    selected_meta = tours[idx - 1]
+    tour_data = get_tour_by_token(selected_meta["share_token"])
+
+    if tour_data:
+        display_full_tour(tour_data)
+        print(f"\n  Share token to send to others : {tour_data['share_token']}")
+
+
+# ─── LIST PUBLIC TOURS ───────────────────────────────────────────────────────
+
+def list_public_tours_ui():
+    """
+    Display all public tours and let the user open one by its number.
+    """
+    tours = get_public_tours()
+
+    if not tours:
+        print("\nNo public tours available yet.")
+        return
+
+    print(f"\n══ Public Tours ({len(tours)}) ══")
     for i, meta in enumerate(tours, start=1):
         display_tour_summary(meta, index=i)
 

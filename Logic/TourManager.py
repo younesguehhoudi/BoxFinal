@@ -73,6 +73,28 @@ def get_tours_by_user(user_id: int) -> list[dict]:
     return [dict(row) for row in rows]
 
 
+def get_public_tours() -> list[dict]:
+    """
+    Return all public tours with their metadata.
+    """
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT id, name, total_distance, visibility, share_token, created_at
+        FROM tours
+        WHERE visibility = 'public'
+        ORDER BY created_at DESC
+        """
+    )
+
+    rows = cursor.fetchall()
+    connection.close()
+
+    return [dict(row) for row in rows]
+
+
 def get_tour_by_token(token: str) -> dict | None:
     """
     Return a tour's full details (metadata + ordered list of Place objects)

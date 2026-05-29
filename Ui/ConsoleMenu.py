@@ -8,6 +8,7 @@ from Ui.PlacePrinter import (
 from Ui.TourPrinter import choose_places_for_tour, display_tour, hotel_planning_ui
 from Ui.TourSharingPrinter import (
     save_tour_ui,
+    list_public_tours_ui,
     list_my_tours_ui,
     access_shared_tour_ui,
 )
@@ -33,13 +34,14 @@ class ConsoleMenu:
         print("2. Add a place")
         print("3. Display my places")
         print("4. Generate and save a tour")
-        print("5. My saved tours")
-        print("6. Access a shared tour (via token)")
-        print("7. Quit")
+        print("5. Display public tours")
+        print("6. My saved tours")
+        print("7. Access a shared tour (via token)")
+        print("8. Quit")
 
     def ask_choice(self):
         """Prompt the user for a menu choice."""
-        return input("Your choice (1-7): ").strip()
+        return input("Your choice (1-8): ").strip()
 
     # ── AUTH ──────────────────────────────────────────────────────────────────
 
@@ -112,6 +114,10 @@ class ConsoleMenu:
             return
         list_my_tours_ui(self.current_user_id)
 
+    def list_public_tours_ui(self):
+        """Display all public tours available to everyone."""
+        list_public_tours_ui()
+
     def access_shared_tour_ui(self):
         """
         Access a tour shared by another user via its token.
@@ -133,9 +139,10 @@ class ConsoleMenu:
             "2": self.add_place_ui,
             "3": self.display_places_ui,
             "4": self.generate_and_save_tour_ui,
-            "5": self.list_my_tours_ui,
-            "6": self.access_shared_tour_ui,
-            "7": self.quit_application,
+            "5": self.list_public_tours_ui,
+            "6": self.list_my_tours_ui,
+            "7": self.access_shared_tour_ui,
+            "8": self.quit_application,
         }
         action = actions.get(choice)
         if action:
