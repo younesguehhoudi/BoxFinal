@@ -23,10 +23,11 @@ def calculate_distance(place_a: Place, place_b: Place) -> float:
     lat_b = place_b.lat * (PI / 180)
     lng_b = place_b.lng * (PI / 180)
 
-    return R * math.acos(
-        math.sin(lat_a) * math.sin(lat_b) +
-        math.cos(lat_a) * math.cos(lat_b) * math.cos(lng_b - lng_a)
+    value = (
+    math.sin(lat_a) * math.sin(lat_b) +
+    math.cos(lat_a) * math.cos(lat_b) * math.cos(lng_b - lng_a)
     )
+    return R * math.acos(max(-1.0, min(1.0, value)))
 
 
 def calculate_total_distance(tour: Tour) -> float:
